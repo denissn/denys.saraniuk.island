@@ -1,8 +1,6 @@
 package ua.javarush.island.entities.organisms.animals.herbivorous;
 
-import ua.javarush.island.entities.organisms.animals.Animal;
-
-public class Сaterpillar extends Herbivor {
+public class Caterpillar extends Herbivor {
     @Override
     public void eat() {
 
