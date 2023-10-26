@@ -1,0 +1,4 @@
+### my gitignore ###
+target/
+.idea/
+*.iml
