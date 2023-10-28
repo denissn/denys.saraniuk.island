@@ -6,7 +6,9 @@ import ua.javarush.island.entities.entitiesLiving.EntityLiving;
 
 public abstract class Animal extends EntityLiving implements Movable, Eating {
 
-
+    public double weightDefault;
+    public double weightSaturation;
+    public int speedMax;
 
     @Override
     public void eat() {

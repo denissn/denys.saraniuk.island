@@ -1,0 +1,8 @@
+{
+  "name": "Caterpillar",
+  "icon": "\uD83D\uDC1B",
+  "amountMax": 200,
+  "weightDefault": 1,
+  "weightSaturation": 0.15,
+  "speedMax": 4
+}

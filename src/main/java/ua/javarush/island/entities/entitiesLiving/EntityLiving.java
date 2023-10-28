@@ -7,10 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 
 public abstract class EntityLiving extends Entity implements Reproductive {
 
-    public double weightDefault;
-    public double weightSaturation;
-    public int speedMax;
-
     @Override
     public EntityLiving reproduce() {
         try {

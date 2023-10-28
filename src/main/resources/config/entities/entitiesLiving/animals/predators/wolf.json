@@ -1,0 +1,8 @@
+{
+  "name": "Wolf",
+  "icon": "\uD83D\uDC3A",
+  "amountMax": 30,
+  "weightDefault": 50,
+  "weightSaturation": 8,
+  "speedMax": 3
+}
