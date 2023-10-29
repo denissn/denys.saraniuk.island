@@ -1,5 +1,6 @@
 package ua.javarush.island.utility;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ua.javarush.island.entities.abstractions.annotations.Config;
 

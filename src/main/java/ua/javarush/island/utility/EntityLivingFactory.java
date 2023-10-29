@@ -3,11 +3,12 @@ package ua.javarush.island.utility;
 import ua.javarush.island.entities.entitiesLiving.EntityLiving;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class EntityLivingFactory {
 
-    private final Map<Class<? extends EntityLiving>, EntityLiving> entitiesLiving = new HashMap<>();
+    private final Map<Class<? extends EntityLiving>, EntityLiving> entitiesLiving = new LinkedHashMap<>();
 
     private EntityLivingFactory(){
 

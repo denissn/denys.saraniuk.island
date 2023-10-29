@@ -4,5 +4,10 @@
   "amountMax": 30,
   "weightDefault": 50,
   "weightSaturation": 8,
-  "speedMax": 3
+  "speedMax": 3,
+  "likelyFood": {
+    "caterpillar": 0,
+    "duck": 40,
+    "wolf": 0
+  }
 }

@@ -7,6 +7,9 @@ import ua.javarush.island.entities.abstractions.interfaces.Eating;
 import ua.javarush.island.entities.abstractions.interfaces.Movable;
 import ua.javarush.island.entities.entitiesLiving.EntityLiving;
 
+import java.util.List;
+import java.util.Map;
+
 @Getter
 @Setter
 public abstract class Animal extends EntityLiving implements Movable, Eating {
@@ -14,6 +17,7 @@ public abstract class Animal extends EntityLiving implements Movable, Eating {
     public double weightDefault;
     public double weightSaturation;
     public int speedMax;
+    public Map<String, Integer> likelyFood;
 
     @Override
     public void eat() {
@@ -34,6 +38,7 @@ public abstract class Animal extends EntityLiving implements Movable, Eating {
                 ", weightDefault=" + weightDefault +
                 ", weightSaturation=" + weightSaturation +
                 ", speedMax=" + speedMax +
+                ", likelyFood=" + likelyFood +
                 '}';
     }
 }
