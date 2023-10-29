@@ -1,20 +1,17 @@
-package ua.javarush.island.services;
+package ua.javarush.island.utility;
 
 import org.reflections.Reflections;
-import ua.javarush.island.entities.Entity;
 import ua.javarush.island.entities.abstractions.annotations.Config;
 import ua.javarush.island.entities.entitiesLiving.EntityLiving;
-import ua.javarush.island.entities.entitiesLiving.animals.Animal;
-import ua.javarush.island.entities.entitiesLiving.animals.predators.Wolf;
 import ua.javarush.island.map.Area;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class AppConfigurator {
 
-    private static final EntityLivingPrototypeFactory entityLivingPrototypeFactory = EntityLivingPrototypeFactory.getInstance();
+    private static final EntityLivingFactory ENTITY_LIVING_FACTORY = EntityLivingFactory.getInstance();
+    private static final ConfigLoader CONFIG_LOADER = ConfigLoader.getInstance();
 
     private static class LazyHolder {
         static final AppConfigurator INSTANCE = new AppConfigurator();
@@ -27,18 +24,15 @@ public class AppConfigurator {
     public void init() {
         registerEntities();
         initializeArea();
+
     }
 
     private void registerEntities() {
-        Set<? extends EntityLiving> entityLivingSet = new HashSet<>();
         Reflections reflections = new Reflections("ua.javarush.island.entities.entitiesLiving");
-        Set<Class<? extends EntityLiving>> collect = reflections.getSubTypesOf(EntityLiving.class).stream()
+        reflections.getSubTypesOf(EntityLiving.class).stream()
                 .filter(e -> e.isAnnotationPresent(Config.class))
-                .collect(Collectors.toSet());
-        for (Class<?> temp : collect) {
-            System.out.println(temp.getSimpleName());
-        }
-
+                .map(CONFIG_LOADER::getObject)
+                .forEach(ENTITY_LIVING_FACTORY::registerEntity);
     }
 
     private void initializeArea() {
