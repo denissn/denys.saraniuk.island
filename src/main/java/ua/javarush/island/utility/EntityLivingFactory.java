@@ -3,12 +3,11 @@ package ua.javarush.island.utility;
 import ua.javarush.island.entities.entitiesLiving.EntityLiving;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class EntityLivingFactory {
 
-    private final Map<Class<? extends EntityLiving>, EntityLiving> entitiesLiving = new LinkedHashMap<>();
+    private final Map<Class<? extends EntityLiving>, EntityLiving> entitiesLiving = new HashMap<>();
 
     private EntityLivingFactory(){
 
@@ -26,7 +25,11 @@ public class EntityLivingFactory {
         entitiesLiving.put(entity.getClass(), entity);
     }
 
-    public EntityLiving create (Class<? extends EntityLiving> type){
+    public EntityLiving getEntityLiving(Class<? extends EntityLiving> type){
         return entitiesLiving.get(type).reproduce();
+    }
+
+    public Map<Class<? extends EntityLiving>, EntityLiving> getEntitiesLiving() {
+        return entitiesLiving;
     }
 }

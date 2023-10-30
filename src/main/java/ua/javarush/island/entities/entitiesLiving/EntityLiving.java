@@ -1,6 +1,8 @@
 package ua.javarush.island.entities.entitiesLiving;
 
-import lombok.ToString;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ua.javarush.island.entities.Entity;
 import ua.javarush.island.entities.abstractions.interfaces.Reproductive;
 
@@ -17,28 +19,32 @@ public abstract class EntityLiving extends Entity implements Reproductive {
     public EntityLiving reproduce() {
         try {
             return copy(this);
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
-                 InvocationTargetException e) {
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private <T> T copy(T entity) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        Class<?> aClass = entity.getClass();
-        T newEntity = (T) entity.getClass().getConstructor().newInstance();
-        while (aClass != null) {
-            copyFields(entity, newEntity, aClass);
-            aClass = aClass.getSuperclass();
+/*
+    private <T> T copyObject(T object) {
+        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        try {
+            return (T) mapper.readValue(mapper.writeValueAsString(object), object.getClass());
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
-        return newEntity;
     }
+*/
 
-    private <T> T copyFields(T entity, T newEntity, Class<?> aClass) throws IllegalAccessException {
-        List<Field> fields = new ArrayList<>(Arrays.asList(aClass.getDeclaredFields()));
-        for (Field field : fields) {
-            field.setAccessible(true);
-            field.set(newEntity, field.get(entity));
+    private <T> T copy(T object) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+        Class<?> objectClass = object.getClass();
+        T newObject = (T) objectClass.getConstructor().newInstance();
+        while (objectClass != null) {
+            Field[] fields = objectClass.getDeclaredFields();
+            for (Field field : fields) {
+                field.set(newObject, field.get(object));
+            }
+            objectClass = objectClass.getSuperclass();
         }
-        return newEntity;
+        return newObject;
     }
 }

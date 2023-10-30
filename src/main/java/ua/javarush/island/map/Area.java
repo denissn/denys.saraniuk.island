@@ -1,13 +1,30 @@
 package ua.javarush.island.map;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Setter;
+import ua.javarush.island.entities.abstractions.annotations.Config;
+
+@Setter
+@Config(filePath = "src/main/resources/config/map/area.json")
 public class Area {
-    private final Location[][] area;
+    @JsonIgnore
+    private Location[][] locations;
+    private int x;
+    private int y;
 
-    public Area(int x, int y) {
-        area = new Location[x][y];
+    private Area() {
     }
 
-    public Location[][] getArea() {
-        return area;
+    public Location[][] getLocations() {
+        if (locations == null) {
+            init();
+        }
+        return locations;
     }
+
+    private Location[][] init() {
+        locations = new Location[x][y];
+        return locations;
+    }
+
 }

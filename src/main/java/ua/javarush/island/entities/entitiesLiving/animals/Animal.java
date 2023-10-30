@@ -21,12 +21,12 @@ public abstract class Animal extends EntityLiving implements Movable, Eating {
 
     @Override
     public void eat() {
-
+        System.out.println("some eat");
     }
 
     @Override
     public void move() {
-
+        System.out.println("somewhere move");
     }
 
     @Override
