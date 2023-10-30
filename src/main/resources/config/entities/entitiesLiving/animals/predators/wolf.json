@@ -8,6 +8,7 @@
   "likelyFood": {
     "caterpillar": 0,
     "duck": 40,
-    "wolf": 0
+    "wolf": 0,
+    "eagle": 0
   }
 }

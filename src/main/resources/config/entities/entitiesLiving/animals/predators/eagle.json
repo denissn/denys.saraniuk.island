@@ -1,0 +1,14 @@
+{
+  "name": "Eagle",
+  "icon": "\uD83E\uDD85",
+  "amountMax": 20,
+  "weightDefault": 6,
+  "weightSaturation": 1,
+  "speedMax": 5,
+  "likelyFood": {
+    "caterpillar": 0,
+    "duck": 80,
+    "wolf": 0,
+    "eagle": 0
+  }
+}

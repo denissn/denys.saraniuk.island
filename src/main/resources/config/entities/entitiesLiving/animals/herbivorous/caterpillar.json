@@ -1,13 +1,14 @@
 {
   "name": "Caterpillar",
   "icon": "\uD83D\uDC1B",
-  "amountMax": 1000,
+  "amountMax": 100,
   "weightDefault": 0.01,
   "weightSaturation": 0,
   "speedMax": 0,
   "likelyFood": {
     "caterpillar": 0,
     "duck": 0,
-    "wolf": 0
+    "wolf": 0,
+    "eagle": 0
   }
 }
