@@ -32,4 +32,9 @@ public class EntityLivingFactory {
     public Map<Class<? extends EntityLiving>, EntityLiving> getEntitiesLiving() {
         return entitiesLiving;
     }
+
+    public void printDefaultEntities() { //TODO the method is used for testing (delete after tests)
+        System.out.println("-".repeat(42));
+        entitiesLiving.forEach((k, v) -> System.out.println(getEntityLiving(k)));
+    }
 }
