@@ -1,7 +1,7 @@
 package ua.javarush.island.map;
 
 import lombok.Getter;
-import ua.javarush.island.entities.Entity;
+import ua.javarush.island.entity.Entity;
 
 import java.util.ArrayList;
 import java.util.List;

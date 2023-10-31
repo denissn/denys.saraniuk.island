@@ -1,12 +1,16 @@
 package ua.javarush.island.utility;
 
-public class ConsoleProvider {
-    private static class LazyHolder {
-        static final ConsoleProvider INSTANCE = new ConsoleProvider();
-    }
+import java.util.Scanner;
 
-    public static ConsoleProvider getInstance() {
-        return ConsoleProvider.LazyHolder.INSTANCE;
+public class ConsoleProvider {
+
+    private final Scanner scanner = new Scanner(System.in);
+    public String read(){
+        return scanner.nextLine();
+    }
+    @SuppressWarnings("java:S106")
+    public void print(Object message){
+        System.out.print(message);
     }
 
     @SuppressWarnings("java:S106")

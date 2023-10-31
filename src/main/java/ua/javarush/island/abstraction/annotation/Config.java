@@ -1,4 +1,4 @@
-package ua.javarush.island.entities.abstractions.annotations;
+package ua.javarush.island.abstraction.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

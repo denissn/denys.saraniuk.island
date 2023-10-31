@@ -1,24 +1,14 @@
 package ua.javarush.island.utility;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ua.javarush.island.entities.abstractions.annotations.Config;
+import ua.javarush.island.abstraction.annotation.Config;
 
 import java.io.File;
 import java.io.IOException;
 
 public class ConfigLoader {
-    private ConfigLoader(){
-
-    }
-
-    private static class LazyHolder {
-        static final ConfigLoader INSTANCE = new ConfigLoader();
-    }
-
-    public static ConfigLoader getInstance() {
-        return ConfigLoader.LazyHolder.INSTANCE;
-    }
 
     public <T> T getObject(Class<T> aClass) {
         if (!aClass.isAnnotationPresent(Config.class)) {

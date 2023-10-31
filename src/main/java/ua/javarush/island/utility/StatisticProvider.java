@@ -1,32 +1,22 @@
 package ua.javarush.island.utility;
 
-import ua.javarush.island.entities.Entity;
+import ua.javarush.island.entity.Entity;
 import ua.javarush.island.map.Area;
 import ua.javarush.island.map.Location;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class StatisticProvider {
-    private StatisticProvider() {
-
-    }
-
-    private static class LazyHolder {
-        static final StatisticProvider INSTANCE = new StatisticProvider();
-    }
-
-    public static StatisticProvider getInstance() {
-        return StatisticProvider.LazyHolder.INSTANCE;
-    }
 
     public void printStatisticArea(Area area) {
         printLocationsStatistic(area);
         printAreaStatistic(area);
     }
 
-    private void printAreaStatistic(Area area){
+    private void printAreaStatistic(Area area) {
         Map<String, Integer> map = new TreeMap<>();
         Location[][] locations = area.getLocations();
         for (int i = 0; i < locations.length; i++) {
@@ -43,39 +33,34 @@ public class StatisticProvider {
                 }
             }
         }
-        System.out.println("*".repeat(42));
+        System.out.println("*** Area statistic ***");
         for (Map.Entry<String, Integer> pair : map.entrySet()) {
             System.out.println(pair.getKey() + " " + pair.getValue());
         }
     }
 
     private void printLocationsStatistic(Area area) {
-        System.out.println("*".repeat(42));
+        System.out.println("*** by Location statistic ***");
         Map<String, StringBuilder> mapSb = new TreeMap<>();
         Location[][] locations = area.getLocations();
-        for (int i = 0; i < locations.length; i++) {
-            for (int j = 0; j < locations[0].length; j++) {
+        for (int j = 0; j < locations[0].length; j++) {//have replaced j and i loops for correct island view
+            for (int i = 0; i < locations.length; i++) {
                 Map<Class<? extends Entity>, List<Entity>> entities = locations[i][j].getEntities();
-                /*if (!mapSb.containsKey("!loc")) {
-                    mapSb.put("!loc", new StringBuilder("|----- " + i + "," + j + " -----|"));
-                } else {
-                    mapSb.put("!loc", mapSb.get("!loc").append(" ").append("|----- ").append(i).append(",").append(j).append(" -----|"));
-                }*/
                 if (!mapSb.containsKey("!loc")) {
                     mapSb.put("!loc", new StringBuilder("|- " + i + "," + j + " -|"));
                 } else {
                     mapSb.put("!loc", mapSb.get("!loc").append(" ").append("|- ").append(i).append(",").append(j).append(" -|"));
                 }
                 int length = mapSb.get("!loc").length();
-                for (Map.Entry<Class<? extends Entity>, List<Entity>> entry : entities.entrySet()) {
-                    //String key = entry.getKey().getSimpleName();
-                    String key = null;
+                for (Map.Entry<Class<? extends Entity>, List<Entity>> entity : entities.entrySet()) {
+                    String key = entity.getKey().getSimpleName();
+                    //String key = null;
                     try {
-                        key = (String) entry.getKey().getField("icon").get(entry.getValue().get(0));
-                    } catch (IllegalAccessException | NoSuchFieldException e) {
+                        key = (String) entity.getKey().getMethod("getIcon").invoke(entity.getValue().get(0));
+                    } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
                         throw new RuntimeException(e);
                     }
-                    int value = entry.getValue().size();
+                    int value = entity.getValue().size();
                     if (!mapSb.containsKey(key)) {
                         mapSb.put(key, new StringBuilder(key + " " + value));
                     } else {
