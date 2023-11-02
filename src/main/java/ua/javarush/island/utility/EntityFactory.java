@@ -9,13 +9,13 @@ import java.util.Map;
 
 public class EntityFactory {
 
-    private final Map<Class<? extends Entity>, Entity> entities = new HashMap<>();
+    private static final Map<Class<? extends Entity>, Entity> entities = new HashMap<>();
 
     public void registerEntity(Entity entity) {
         entities.put(entity.getClass(), entity);
     }
 
-    public Entity getEntity(Class<? extends Entity> type){
+    public static Entity getEntity(Class<? extends Entity> type){
         return copyEntity(entities.get(type));
     }
 
@@ -23,7 +23,7 @@ public class EntityFactory {
         return entities;
     }
 
-    private <T> T copyEntity(T entity) {
+    private static <T> T copyEntity(T entity) {
         Class<?> entityClass = entity.getClass();
         T newEntity;
         try {

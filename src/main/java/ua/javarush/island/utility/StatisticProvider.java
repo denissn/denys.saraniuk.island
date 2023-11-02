@@ -11,12 +11,12 @@ import java.util.TreeMap;
 
 public class StatisticProvider {
 
-    public void printStatisticArea(Area area) {
-        printLocationsStatistic(area);
-        printAreaStatistic(area);
+    public void printStatisticsArea(Area area) {
+        printByLocations(area);
+        //printArea(area);
     }
 
-    private void printAreaStatistic(Area area) {
+    private void printArea(Area area) {
         Map<String, Integer> map = new TreeMap<>();
         Location[][] locations = area.getLocations();
         for (int i = 0; i < locations.length; i++) {
@@ -39,7 +39,7 @@ public class StatisticProvider {
         }
     }
 
-    private void printLocationsStatistic(Area area) {
+    private void printByLocations(Area area) {
         System.out.println("*** by Location statistic ***");
         Map<String, StringBuilder> mapSb = new TreeMap<>();
         Location[][] locations = area.getLocations();
@@ -53,8 +53,7 @@ public class StatisticProvider {
                 }
                 int length = mapSb.get("!loc").length();
                 for (Map.Entry<Class<? extends Entity>, List<Entity>> entity : entities.entrySet()) {
-                    String key = entity.getKey().getSimpleName();
-                    //String key = null;
+                    String key; //= entity.getKey().getSimpleName();
                     try {
                         key = (String) entity.getKey().getMethod("getIcon").invoke(entity.getValue().get(0));
                     } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
