@@ -28,7 +28,7 @@ public class Executor {
 
         //TODO start life cycle
         consoleProvider.println("--- start game ---");
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 100; i++) {
             consoleProvider.println("****************************** day " + i + " *********************************************");
             eat(area);
             statisticProvider.printByLocations(area);

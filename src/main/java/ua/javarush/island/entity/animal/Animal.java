@@ -38,6 +38,7 @@ public abstract class Animal extends Entity implements Movable, Eating {
             List<Entity> entityList = location.getEntities().get(targetFood);
             if (entityList != null && !entityList.isEmpty()) {
                 //System.out.println(targetFood.getSimpleName());
+                weightDefault = weightDefault + weightSaturation;//TODO
                 entityList.remove(0);
             } else {
                 //System.out.println("--------------");
@@ -45,7 +46,10 @@ public abstract class Animal extends Entity implements Movable, Eating {
         } else {
             //System.out.println("--------------");
         }
-        //TODO need to add hungary logic and died
+        weightDefault = weightDefault - weightSaturation;
+        if (weightDefault / ((Animal)EntityFactory.getEntityClass(this.getClass())).getWeightDefault() < 0.6) {
+            location.removeEntity(this);
+        }
     }
 
     @Override
