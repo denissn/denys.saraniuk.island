@@ -46,7 +46,7 @@ public abstract class Animal extends Entity implements Movable, Eating {
         } else {
             //System.out.println("--------------");
         }
-
+        //TODO need to add hungary logic and died
     }
 
     @Override

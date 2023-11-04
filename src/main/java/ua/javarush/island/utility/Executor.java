@@ -20,20 +20,21 @@ public class Executor {
 
         //TODO the code below is used for testing (delete after tests)
 
-        statisticProvider.printStatisticsArea(area);
+        statisticProvider.printByLocations(area);
         //System.out.println("*** Location 0,0 types ***");
         //area.getLocations()[0][0].getEntities().forEach((k, v) -> System.out.println(v.get(0)));
 
         //TODO start life cycle
         consoleProvider.println("--- start game ---");
-        for (int m = 0; m < 2; m++) {
-            consoleProvider.println("****************************** new day *********************************************");
+        for (int i = 0; i < 5; i++) {
+            consoleProvider.println("****************************** day " + i + " *********************************************");
             eat(area);
-            statisticProvider.printStatisticsArea(area);
+            statisticProvider.printByLocations(area);
             love(area);
-            statisticProvider.printStatisticsArea(area);
+            statisticProvider.printByLocations(area);
             move(area);
-            //statisticProvider.printStatisticsArea(area);
+            statisticProvider.printByLocations(area);
+            //statisticProvider.printArea(area);
         }
     }
 
@@ -53,7 +54,6 @@ public class Executor {
                         animal.eat(location);
                     }
                 }
-
             }
         }
     }
@@ -75,6 +75,7 @@ public class Executor {
                         }
                     }
                 }
+                entitiesPrototype.entrySet().stream().filter(b-> !b.getValue().isEmpty()).forEach(e-> e.getValue().forEach(a->a.setReproduced(false)));
             }
         }
     }

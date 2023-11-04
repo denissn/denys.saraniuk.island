@@ -11,12 +11,7 @@ import java.util.TreeMap;
 
 public class StatisticProvider {
 
-    public void printStatisticsArea(Area area) {
-        printByLocations(area);
-        //printArea(area);
-    }
-
-    private void printArea(Area area) {
+    public void printArea(Area area) {
         Map<String, Integer> map = new TreeMap<>();
         Location[][] locations = area.getLocations();
         for (int i = 0; i < locations.length; i++) {
@@ -39,7 +34,7 @@ public class StatisticProvider {
         }
     }
 
-    private void printByLocations(Area area) {
+    public void printByLocations(Area area) {
         System.out.println("*** by Location statistic ***");
         Map<String, StringBuilder> mapSb = new TreeMap<>();
         Location[][] locations = area.getLocations();
