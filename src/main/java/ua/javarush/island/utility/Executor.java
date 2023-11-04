@@ -33,7 +33,7 @@ public class Executor {
             love(area);
             statisticProvider.printByLocations(area);
             move(area);
-            statisticProvider.printByLocations(area);
+            //statisticProvider.printByLocations(area);
             //statisticProvider.printArea(area);
         }
     }

@@ -37,6 +37,11 @@ public class StatisticProvider {
     public void printByLocations(Area area) {
         System.out.println("*** by Location statistic ***");
         Map<String, StringBuilder> mapSb = new TreeMap<>();
+        Map<Class<? extends Entity>, Entity> map = EntityFactory.getEntities();
+        mapSb.put("!loc", new StringBuilder());
+        for (Map.Entry<Class<? extends Entity>, Entity> item : map.entrySet()) {
+            mapSb.put(item.getValue().getIcon(), new StringBuilder());
+        }
         Location[][] locations = area.getLocations();
         for (int j = 0; j < locations[0].length; j++) {//have replaced j and i loops for correct island view
             for (int i = 0; i < locations.length; i++) {
@@ -52,23 +57,23 @@ public class StatisticProvider {
                     if (!entity.getValue().isEmpty()) {
                         try {
                             key = (String) entity.getKey().getMethod("getIcon").invoke(entity.getValue().get(0));
-                        } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+                        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                             throw new RuntimeException(e);
                         }
                         int value = entity.getValue().size();
-                        if (!mapSb.containsKey(key)) {
-                            mapSb.put(key, new StringBuilder(key + " " + value));
-                        } else {
-                            mapSb.put(key, mapSb.get(key).append(" ").append(key).append(" ").append(value));
-                        }
-                        while (mapSb.get(key).length() < length) {
-                            mapSb.put(key, mapSb.get(key).append(" "));
-                        }
+                        mapSb.put(key, mapSb.get(key).append(" ").append(key).append(" ").append(value));
+                    }
+                }
+                for (Map.Entry<String, StringBuilder> map2 : mapSb.entrySet()) {
+                    while (map2.getValue().length() < length) {
+                        map2.getValue().append(" ");
                     }
                 }
             }
             mapSb.forEach((k, v) -> System.out.println(v));
-            mapSb.clear();
+            for (Map.Entry<String, StringBuilder> map2 : mapSb.entrySet()) {
+                map2.getValue().setLength(0);
+            }
         }
     }
 

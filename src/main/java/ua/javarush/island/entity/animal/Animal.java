@@ -37,7 +37,7 @@ public abstract class Animal extends Entity implements Movable, Eating {
         if (chanceToEat >= current.nextInt(maxChanceToEat)) {
             Class<? extends Entity> targetFood = EntityFactory.getEntityClass(food);
             List<Entity> entityList = location.getEntities().get(targetFood);
-            if (!entityList.isEmpty()) {
+            if (entityList != null && !entityList.isEmpty()) {
                 //System.out.println(targetFood.getSimpleName());
                 entityList.remove(0);
             } else {
