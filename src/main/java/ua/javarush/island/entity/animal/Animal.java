@@ -1,17 +1,16 @@
 package ua.javarush.island.entity.animal;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import ua.javarush.island.abstraction.behavior.Eating;
 import ua.javarush.island.abstraction.behavior.Movable;
 import ua.javarush.island.entity.Entity;
+import ua.javarush.island.map.Area;
 import ua.javarush.island.map.Location;
 import ua.javarush.island.utility.EntityFactory;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
@@ -26,7 +25,7 @@ public abstract class Animal extends Entity implements Movable, Eating {
     private int speedMax;
     private Map<String, Integer> likelyFood;
 
-       @Override
+    @Override
     public void eat(Location location) {
         //System.out.print(this.getName() + " eat a ");
         ThreadLocalRandom current = ThreadLocalRandom.current();
@@ -50,8 +49,18 @@ public abstract class Animal extends Entity implements Movable, Eating {
     }
 
     @Override
-    public void move(Location location) {
-        System.out.println(this.getName() + " run into the sunset...");
+    public void move(Area area, Location location) {
+//        System.out.println(this.getName() + " run into the sunset...");
+        ThreadLocalRandom current = ThreadLocalRandom.current();
+        Location[][] locations = area.getLocations();
+        Area.Direction[] directions = Area.Direction.values();
+
+        int x = location.getX() + directions[current.nextInt(directions.length)].getX();
+        int y = location.getY() + directions[current.nextInt(directions.length)].getY();
+        if (x >= 0 && y >= 0 && x < locations.length && y < locations[0].length) {
+            locations[x][y].addEntity(this);
+            location.removeEntity(this);
+        }
     }
 
     @Override

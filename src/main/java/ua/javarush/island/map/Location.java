@@ -8,11 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Getter
 public class Location {
     private int x;
     private int y;
-
-    @Getter
     private Map<Class<? extends Entity>, List<Entity>> entities = new ConcurrentHashMap<>();
 
     public Location(int x, int y) {

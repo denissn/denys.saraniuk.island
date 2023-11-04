@@ -1,6 +1,7 @@
 package ua.javarush.island.utility;
 
 import ua.javarush.island.abstraction.behavior.Eating;
+import ua.javarush.island.abstraction.behavior.Movable;
 import ua.javarush.island.entity.Entity;
 import ua.javarush.island.map.Area;
 import ua.javarush.island.map.Location;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Executor {
     public void startGame() {
@@ -33,7 +35,7 @@ public class Executor {
             love(area);
             statisticProvider.printByLocations(area);
             move(area);
-            //statisticProvider.printByLocations(area);
+            statisticProvider.printByLocations(area);
             //statisticProvider.printArea(area);
         }
     }
@@ -87,9 +89,13 @@ public class Executor {
             for (int j = 0; j < locations[0].length; j++) {
                 Location location = locations[i][j];
                 Map<Class<? extends Entity>, List<Entity>> entitiesPrototype = location.getEntities();
-                /*for (Map.Entry<Class<? extends Entity>, List<Entity>> entitiesList : entitiesPrototype.entrySet()) {
-                    entitiesList.getValue().stream().filter(Animal.class::isInstance).forEach(a -> ((Animal) a).move(location));
-                }*/
+                for (Map.Entry<Class<? extends Entity>, List<Entity>> entitiesList : entitiesPrototype.entrySet()) {
+                    List<Entity> collect = entitiesList.getValue().stream().filter(Movable.class::isInstance).collect(Collectors.toList());
+                    ListIterator<Entity> iterator = collect.listIterator();
+                    while (iterator.hasNext()){
+                        ((Movable)iterator.next()).move(area, location);
+                    }
+                }
             }
         }
     }

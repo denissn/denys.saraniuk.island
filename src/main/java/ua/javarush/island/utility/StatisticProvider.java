@@ -35,7 +35,7 @@ public class StatisticProvider {
     }
 
     public void printByLocations(Area area) {
-        System.out.println("*** by Location statistic ***");
+        //System.out.println("*** by Location statistic ***");
         Map<String, StringBuilder> mapSb = new TreeMap<>();
         Map<Class<? extends Entity>, Entity> map = EntityFactory.getEntities();
         mapSb.put("!loc", new StringBuilder());
