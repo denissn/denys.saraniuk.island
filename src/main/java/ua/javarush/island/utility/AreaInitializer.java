@@ -29,7 +29,7 @@ public class AreaInitializer {
                     int amountMax = entityItem.getValue().getAmountMax();
                     int countEntitiesByType = random.nextInt(amountMax);
                     for (int k = 0; k < countEntitiesByType; k++) {
-                        locations[i][j].addEntity(entityFactory.getEntity(entityItem.getKey()));
+                        locations[i][j].addEntity(entityFactory.getEntityClass(entityItem.getKey()));
                     }
                 }
             }

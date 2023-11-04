@@ -15,11 +15,18 @@ public class EntityFactory {
         entities.put(entity.getClass(), entity);
     }
 
-    public static Entity getEntity(Class<? extends Entity> type){
+    public static Entity getEntityClass(Class<? extends Entity> type){
         return copyEntity(entities.get(type));
     }
 
-    public Map<Class<? extends Entity>, Entity> getEntities() {
+    public static Class<? extends Entity> getEntityClass(String className){
+        if (className == null) {
+            return null;
+        }
+        return entities.entrySet().stream().filter(e->e.getValue().getName().equals(className)).findFirst().map(m->m.getKey()).get();
+    }
+
+    public static Map<Class<? extends Entity>, Entity> getEntities() {
         return entities;
     }
 

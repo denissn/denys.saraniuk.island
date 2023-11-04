@@ -54,19 +54,21 @@ public class StatisticProvider {
                 int length = mapSb.get("!loc").length();
                 for (Map.Entry<Class<? extends Entity>, List<Entity>> entity : entities.entrySet()) {
                     String key; //= entity.getKey().getSimpleName();
-                    try {
-                        key = (String) entity.getKey().getMethod("getIcon").invoke(entity.getValue().get(0));
-                    } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-                        throw new RuntimeException(e);
-                    }
-                    int value = entity.getValue().size();
-                    if (!mapSb.containsKey(key)) {
-                        mapSb.put(key, new StringBuilder(key + " " + value));
-                    } else {
-                        mapSb.put(key, mapSb.get(key).append(" ").append(key).append(" ").append(value));
-                    }
-                    while (mapSb.get(key).length() < length) {
-                        mapSb.put(key, mapSb.get(key).append(" "));
+                    if (!entity.getValue().isEmpty()) {
+                        try {
+                            key = (String) entity.getKey().getMethod("getIcon").invoke(entity.getValue().get(0));
+                        } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+                            throw new RuntimeException(e);
+                        }
+                        int value = entity.getValue().size();
+                        if (!mapSb.containsKey(key)) {
+                            mapSb.put(key, new StringBuilder(key + " " + value));
+                        } else {
+                            mapSb.put(key, mapSb.get(key).append(" ").append(key).append(" ").append(value));
+                        }
+                        while (mapSb.get(key).length() < length) {
+                            mapSb.put(key, mapSb.get(key).append(" "));
+                        }
                     }
                 }
             }

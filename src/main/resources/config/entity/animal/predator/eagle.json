@@ -6,9 +6,9 @@
   "weightSaturation": 1,
   "speedMax": 5,
   "likelyFood": {
-    "caterpillar": 0,
-    "duck": 80,
-    "wolf": 0,
-    "eagle": 0
+    "Caterpillar": 0,
+    "Duck": 80,
+    "Wolf": 0,
+    "Eagle": 0
   }
 }
