@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Executor {
     public void startGame() {
@@ -20,28 +19,33 @@ public class Executor {
         EntityFactory entityFactory = new EntityFactory();
         Area area = new AppConfigurator(entityFactory, consoleProvider).init();
 
-        //TODO the code below is used for testing (delete after tests)
-
-        statisticProvider.printByLocations(area);
         //System.out.println("*** Location 0,0 types ***");
         //area.getLocations()[0][0].getEntities().forEach((k, v) -> System.out.println(v.get(0)));
 
         //TODO start life cycle
-        consoleProvider.println("--- start game ---");
-        for (int i = 0; i < 100; i++) {
+        consoleProvider.println("--- start simulation ---");
+        statisticProvider.printByLocations(area);
+        statisticProvider.printArea(area);
+        long start = System.currentTimeMillis();
+        for (int i = 1; i <= 100; i++) {
             consoleProvider.println("****************************** day " + i + " *********************************************");
             eat(area);
-            statisticProvider.printByLocations(area);
+            //statisticProvider.printByLocations(area);
             love(area);
-            statisticProvider.printByLocations(area);
+            //statisticProvider.printByLocations(area);
             move(area);
-            statisticProvider.printByLocations(area);
+            //statisticProvider.printByLocations(area);
             //statisticProvider.printArea(area);
         }
+        long end = System.currentTimeMillis();
+        consoleProvider.println("--- end simulation ---");
+        statisticProvider.printArea(area);
+        statisticProvider.printByLocations(area);
+        consoleProvider.println("time: " + (end-start)/1000 + " sec");
     }
 
     private void eat(Area area) {
-        System.out.println("--- all eat ---");
+        //System.out.println("--- all eat ---");
         Location[][] locations = area.getLocations();
         for (int i = 0; i < locations.length; i++) {
             for (int j = 0; j < locations[0].length; j++) {
@@ -61,8 +65,8 @@ public class Executor {
     }
 
     private void love(Area area) {
+        // System.out.println("--- all fall in love ---");
         Location[][] locations = area.getLocations();
-        System.out.println("--- all fall in love ---");
         for (int i = 0; i < locations.length; i++) {
             for (int j = 0; j < locations[0].length; j++) {
                 Location location = locations[i][j];
@@ -77,13 +81,13 @@ public class Executor {
                         }
                     }
                 }
-                entitiesPrototype.entrySet().stream().filter(b-> !b.getValue().isEmpty()).forEach(e-> e.getValue().forEach(a->a.setReproduced(false)));
+                entitiesPrototype.entrySet().stream().filter(b -> !b.getValue().isEmpty()).forEach(e -> e.getValue().forEach(a -> a.setReproduced(false)));
             }
         }
     }
 
     private void move(Area area) {
-        System.out.println("--- all move ---");
+        //System.out.println("--- all move ---");
         Location[][] locations = area.getLocations();
         for (int i = 0; i < locations.length; i++) {
             for (int j = 0; j < locations[0].length; j++) {
@@ -92,8 +96,8 @@ public class Executor {
                 for (Map.Entry<Class<? extends Entity>, List<Entity>> entitiesList : entitiesPrototype.entrySet()) {
                     List<Entity> collect = entitiesList.getValue().stream().filter(Movable.class::isInstance).collect(Collectors.toList());
                     ListIterator<Entity> iterator = collect.listIterator();
-                    while (iterator.hasNext()){
-                        ((Movable)iterator.next()).move(area, location);
+                    while (iterator.hasNext()) {
+                        ((Movable) iterator.next()).move(area, location);
                     }
                 }
             }

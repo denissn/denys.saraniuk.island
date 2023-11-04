@@ -1,7 +1,7 @@
 {
   "name": "Caterpillar",
   "icon": "\uD83D\uDC1B",
-  "amountMax": 100,
+  "amountMax": 300,
   "weightDefault": 0.01,
   "weightSaturation": 0,
   "speedMax": 0,

@@ -47,7 +47,7 @@ public abstract class Animal extends Entity implements Movable, Eating {
             //System.out.println("--------------");
         }
         weightDefault = weightDefault - weightSaturation;
-        if (weightDefault / ((Animal)EntityFactory.getEntityClass(this.getClass())).getWeightDefault() < 0.6) {
+        if (weightDefault / ((Animal) EntityFactory.getEntityClass(this.getClass())).getWeightDefault() < 0.6) {
             location.removeEntity(this);
         }
     }
@@ -59,12 +59,25 @@ public abstract class Animal extends Entity implements Movable, Eating {
         Location[][] locations = area.getLocations();
         Area.Direction[] directions = Area.Direction.values();
 
-        int x = location.getX() + directions[current.nextInt(directions.length)].getX();
+        /*int x = location.getX() + directions[current.nextInt(directions.length)].getX();
         int y = location.getY() + directions[current.nextInt(directions.length)].getY();
         if (x >= 0 && y >= 0 && x < locations.length && y < locations[0].length) {
             locations[x][y].addEntity(this);
             location.removeEntity(this);
+        }*/
+
+        int x = location.getX();
+        int y = location.getY();
+        for (int i = 0; i < current.nextInt(speedMax); i++) {
+            int xNew = x + directions[current.nextInt(directions.length)].getX();
+            int yNew = y + directions[current.nextInt(directions.length)].getY();
+            if (xNew >= 0 && yNew >= 0 && xNew < locations.length && yNew < locations[0].length) {
+                x = xNew;
+                y = yNew;
+            }
         }
+        locations[x][y].addEntity(this);
+        location.removeEntity(this);
     }
 
     @Override
