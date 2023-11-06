@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 @Setter
 public abstract class Animal extends Entity implements Movable, Eating {
     private int maxChanceToEat = 100;
+    private double minPercentsWeightToDie = 0.52;
+    private double weight;
     private double weightDefault;
     private double weightSaturation;
     private int speedMax;
@@ -37,7 +39,13 @@ public abstract class Animal extends Entity implements Movable, Eating {
             List<Entity> entityList = location.getEntities().get(targetFood);
             if (entityList != null && !entityList.isEmpty()) {
                 //System.out.println(targetFood.getSimpleName());
-                weightDefault = weightDefault + weightSaturation;//TODO
+                double saturation = 0;
+                if(entityList.get(0) instanceof Animal){
+                    saturation = ((Animal) entityList.get(0)).getWeightDefault();
+                } else {
+                    saturation = weightSaturation;
+                }
+                weight = weight + saturation;
                 entityList.remove(0);
             } else {
                 //System.out.println("--------------");
@@ -45,8 +53,8 @@ public abstract class Animal extends Entity implements Movable, Eating {
         } else {
             //System.out.println("--------------");
         }
-        weightDefault = weightDefault - weightSaturation;
-        if (weightDefault / ((Animal) EntityFactory.getEntityClass(this.getClass())).getWeightDefault() < 0.6) {
+        weight = weight - weightSaturation;
+        if (weight / ((Animal) EntityFactory.getEntityClass(this.getClass())).getWeightDefault() < minPercentsWeightToDie) {
             location.removeEntity(this);
         }
     }
@@ -65,7 +73,7 @@ public abstract class Animal extends Entity implements Movable, Eating {
             int yNew = y + directions[current.nextInt(directions.length)].getY();
             if (xNew >= 0 && yNew >= 0 && xNew < locations.length && yNew < locations[0].length ){
                 List<Entity> entitiesNewLocation = locations[xNew][yNew].getEntities().get(this.getClass());
-                if (entitiesNewLocation == null || (entitiesNewLocation.size() + 1 <= getAmountMax())) {
+                if (entitiesNewLocation == null || (entitiesNewLocation.size() + 1 <= getAmountMax())) { // simulation is more fun without this restriction
                     x = xNew;
                     y = yNew;
                 }

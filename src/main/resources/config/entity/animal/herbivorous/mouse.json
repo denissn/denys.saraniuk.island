@@ -1,11 +1,11 @@
 {
-  "name": "Duck",
-  "icon": "\uD83E\uDD86",
-  "weight": 1,
-  "weightDefault": 1,
-  "amountMax": 200,
-  "speedMax": 4,
-  "weightSaturation": 0.15,
+  "name": "Mouse",
+  "icon": "\uD83D\uDC01",
+  "weight": 0.05,
+  "weightDefault": 0.05,
+  "amountMax": 500,
+  "speedMax": 1,
+  "weightSaturation": 0.01,
   "likelyFood": {
     "Bear": 0,
     "Boa": 0,
