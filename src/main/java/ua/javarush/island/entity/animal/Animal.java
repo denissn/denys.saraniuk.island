@@ -28,7 +28,6 @@ public abstract class Animal extends Entity implements Movable, Eating {
 
     @Override
     public void eat(Location location) {
-        //System.out.print(this.getName() + " eat a ");
         ThreadLocalRandom current = ThreadLocalRandom.current();
         List<String> foodTypes = likelyFood.entrySet().stream().filter(m -> m.getValue() > 0).map(Map.Entry::getKey).collect(Collectors.toList());
         Collections.shuffle(foodTypes);//get random food
@@ -38,7 +37,6 @@ public abstract class Animal extends Entity implements Movable, Eating {
             Class<? extends Entity> targetFood = EntityFactory.getEntityClass(food);
             List<Entity> entityList = location.getEntities().get(targetFood);
             if (entityList != null && !entityList.isEmpty()) {
-                //System.out.println(targetFood.getSimpleName());
                 double saturation = 0;
                 if(entityList.get(0) instanceof Animal){
                     saturation = ((Animal) entityList.get(0)).getWeightDefault();
@@ -47,11 +45,7 @@ public abstract class Animal extends Entity implements Movable, Eating {
                 }
                 weight = weight + saturation;
                 entityList.remove(0);
-            } else {
-                //System.out.println("--------------");
             }
-        } else {
-            //System.out.println("--------------");
         }
         weight = weight - weightSaturation;
         if (weight / ((Animal) EntityFactory.getEntityClass(this.getClass())).getWeightDefault() < minPercentsWeightToDie) {
@@ -61,7 +55,6 @@ public abstract class Animal extends Entity implements Movable, Eating {
 
     @Override
     public void move(Area area, Location location) {
-//        System.out.println(this.getName() + " run into the sunset...");
         ThreadLocalRandom current = ThreadLocalRandom.current();
         Location[][] locations = area.getLocations();
         Area.Direction[] directions = Area.Direction.values();
@@ -89,6 +82,7 @@ public abstract class Animal extends Entity implements Movable, Eating {
                 "name=" + getName() +
                 ", icon=" + getIcon() +
                 ", amountMax=" + getAmountMax() +
+                ", weight=" + getWeight() +
                 ", weightDefault=" + getWeightDefault() +
                 ", weightSaturation=" + getWeightSaturation() +
                 ", speedMax=" + getSpeedMax() +

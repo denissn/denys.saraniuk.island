@@ -18,18 +18,18 @@ public class Executor {
         consoleProvider.println("--- init game ---");
         EntityFactory entityFactory = new EntityFactory();
         Area area = new AppConfigurator(entityFactory, consoleProvider).init();
-        //TODO start life cycle
+
         consoleProvider.println("--- start simulation ---");
         statisticProvider.printArea(area);
         statisticProvider.printByLocations(area);
         long start = System.currentTimeMillis();
         for (int i = 1; i <= 100; i++) {
-            consoleProvider.println("****************************** day " + i + " *********************************************");
-            eat(area);
+            consoleProvider.println("*************** day " + i + " ***************");
+            allEat(area);
             //statisticProvider.printByLocations(area);
-            love(area);
+            allLove(area);
             //statisticProvider.printByLocations(area);
-            move(area);
+            allMove(area);
             //statisticProvider.printByLocations(area);
             //statisticProvider.printArea(area);
         }
@@ -37,10 +37,10 @@ public class Executor {
         consoleProvider.println("--- end simulation ---");
         statisticProvider.printArea(area);
         statisticProvider.printByLocations(area);
-        consoleProvider.println("time: " + (end-start)/1000 + " sec");
+        consoleProvider.println("simulation time: " + (end-start)/1000 + " sec");
     }
 
-    private void eat(Area area) {
+    private void allEat(Area area) {
         Location[][] locations = area.getLocations();
         for (int i = 0; i < locations.length; i++) {
             for (int j = 0; j < locations[0].length; j++) {
@@ -58,7 +58,7 @@ public class Executor {
         }
     }
 
-    private void love(Area area) {
+    private void allLove(Area area) {
         Location[][] locations = area.getLocations();
         for (int i = 0; i < locations.length; i++) {
             for (int j = 0; j < locations[0].length; j++) {
@@ -79,7 +79,7 @@ public class Executor {
         }
     }
 
-    private void move(Area area) {
+    private void allMove(Area area) {
         Location[][] locations = area.getLocations();
         for (int i = 0; i < locations.length; i++) {
             for (int j = 0; j < locations[0].length; j++) {

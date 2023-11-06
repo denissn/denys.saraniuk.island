@@ -1,5 +1,6 @@
 package ua.javarush.island.utility;
 
+import lombok.Getter;
 import ua.javarush.island.entity.Entity;
 
 import java.lang.reflect.Field;
@@ -9,6 +10,7 @@ import java.util.Map;
 
 public class EntityFactory {
 
+    @Getter
     private static final Map<Class<? extends Entity>, Entity> entities = new HashMap<>();
 
     public void registerEntity(Entity entity) {
@@ -24,10 +26,6 @@ public class EntityFactory {
             return null;
         }
         return entities.entrySet().stream().filter(e->e.getValue().getName().equals(className)).findFirst().map(m->m.getKey()).get();
-    }
-
-    public static Map<Class<? extends Entity>, Entity> getEntities() {
-        return entities;
     }
 
     private static <T> T copyEntity(T entity) {
