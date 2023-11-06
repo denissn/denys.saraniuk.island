@@ -18,14 +18,10 @@ public class Executor {
         consoleProvider.println("--- init game ---");
         EntityFactory entityFactory = new EntityFactory();
         Area area = new AppConfigurator(entityFactory, consoleProvider).init();
-
-        //System.out.println("*** Location 0,0 types ***");
-        //area.getLocations()[0][0].getEntities().forEach((k, v) -> System.out.println(v.get(0)));
-
         //TODO start life cycle
         consoleProvider.println("--- start simulation ---");
-        statisticProvider.printByLocations(area);
         statisticProvider.printArea(area);
+        statisticProvider.printByLocations(area);
         long start = System.currentTimeMillis();
         for (int i = 1; i <= 100; i++) {
             consoleProvider.println("****************************** day " + i + " *********************************************");
@@ -45,13 +41,11 @@ public class Executor {
     }
 
     private void eat(Area area) {
-        //System.out.println("--- all eat ---");
         Location[][] locations = area.getLocations();
         for (int i = 0; i < locations.length; i++) {
             for (int j = 0; j < locations[0].length; j++) {
                 Location location = locations[i][j];
                 Map<Class<? extends Entity>, List<Entity>> entitiesPrototype = location.getEntities();
-                //how to get random entity for eat??
                 for (Map.Entry<Class<? extends Entity>, List<Entity>> entitiesList : entitiesPrototype.entrySet()) {
                     List<Entity> animals = entitiesList.getValue().stream().filter(Eating.class::isInstance).collect(Collectors.toList());
                     ListIterator<Entity> iterator = animals.listIterator();
@@ -65,7 +59,6 @@ public class Executor {
     }
 
     private void love(Area area) {
-        // System.out.println("--- all fall in love ---");
         Location[][] locations = area.getLocations();
         for (int i = 0; i < locations.length; i++) {
             for (int j = 0; j < locations[0].length; j++) {
@@ -87,7 +80,6 @@ public class Executor {
     }
 
     private void move(Area area) {
-        //System.out.println("--- all move ---");
         Location[][] locations = area.getLocations();
         for (int i = 0; i < locations.length; i++) {
             for (int j = 0; j < locations[0].length; j++) {
