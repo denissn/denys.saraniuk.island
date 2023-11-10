@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class EntityFactory {
 
@@ -25,7 +26,7 @@ public class EntityFactory {
         if (className == null) {
             return null;
         }
-        return entities.entrySet().stream().filter(e->e.getValue().getName().equals(className)).findFirst().map(m->m.getKey()).get();
+        return Optional.of(entities.entrySet().stream().filter(e->e.getValue().getName().equals(className)).findFirst().map(Map.Entry::getKey)).get().orElse(null);
     }
 
     private static <T> T copyEntity(T entity) {

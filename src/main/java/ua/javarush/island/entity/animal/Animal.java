@@ -9,9 +9,7 @@ import ua.javarush.island.map.Area;
 import ua.javarush.island.map.Location;
 import ua.javarush.island.utility.EntityFactory;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -30,21 +28,29 @@ public abstract class Animal extends Entity implements Movable, Eating {
     public void eat(Location location) {
         ThreadLocalRandom current = ThreadLocalRandom.current();
         List<String> foodTypes = likelyFood.entrySet().stream().filter(m -> m.getValue() > 0).map(Map.Entry::getKey).collect(Collectors.toList());
-        Collections.shuffle(foodTypes);//get random food
-        String food = foodTypes.get(current.nextInt(foodTypes.size()));
-        Integer chanceToEat = likelyFood.get(food);
-        if (chanceToEat >= current.nextInt(maxChanceToEat)) {
-            Class<? extends Entity> targetFood = EntityFactory.getEntityClass(food);
-            List<Entity> entityList = location.getEntities().get(targetFood);
-            if (entityList != null && !entityList.isEmpty()) {
-                double saturation = 0;
-                if(entityList.get(0) instanceof Animal){
-                    saturation = ((Animal) entityList.get(0)).getWeightDefault();
-                } else {
-                    saturation = weightSaturation;
+        ListIterator<String> iterator = foodTypes.listIterator();
+        while (iterator.hasNext()) {
+            if (EntityFactory.getEntityClass(iterator.next()) == null) {
+                iterator.remove();
+            }
+        }
+        if (!foodTypes.isEmpty()) {
+            Collections.shuffle(foodTypes);//get random food
+            String food = foodTypes.get(current.nextInt(foodTypes.size()));
+            Integer chanceToEat = likelyFood.get(food);
+            if (chanceToEat >= current.nextInt(maxChanceToEat)) {
+                Class<? extends Entity> targetFood = EntityFactory.getEntityClass(food);
+                List<Entity> entityList = location.getEntities().get(targetFood);
+                if (entityList != null && !entityList.isEmpty()) {
+                    double saturation = 0;
+                    if(entityList.get(0) instanceof Animal){
+                        saturation = ((Animal) entityList.get(0)).getWeightDefault();
+                    } else {
+                        saturation = weightSaturation;
+                    }
+                    weight = weight + saturation;
+                    entityList.remove(0);
                 }
-                weight = weight + saturation;
-                entityList.remove(0);
             }
         }
         weight = weight - weightSaturation;
