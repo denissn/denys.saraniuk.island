@@ -28,12 +28,7 @@ public abstract class Animal extends Entity implements Movable, Eating {
     public void eat(Location location) {
         ThreadLocalRandom current = ThreadLocalRandom.current();
         List<String> foodTypes = likelyFood.entrySet().stream().filter(m -> m.getValue() > 0).map(Map.Entry::getKey).collect(Collectors.toList());
-        ListIterator<String> iterator = foodTypes.listIterator();
-        while (iterator.hasNext()) {
-            if (EntityFactory.getEntityClass(iterator.next()) == null) {
-                iterator.remove();
-            }
-        }
+        foodTypes.removeIf(e -> EntityFactory.getEntityClass(e) == null);
         if (!foodTypes.isEmpty()) {
             Collections.shuffle(foodTypes);//get random food
             String food = foodTypes.get(current.nextInt(foodTypes.size()));
