@@ -5,12 +5,13 @@ import ua.javarush.island.utility.AppConfigurator;
 import ua.javarush.island.utility.ConsoleProvider;
 import ua.javarush.island.utility.EntityFactory;
 import ua.javarush.island.utility.StatisticProvider;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Executor {
     private final ConsoleProvider consoleProvider = new ConsoleProvider();
-    private final StatisticProvider statisticProvider = new StatisticProvider();
+    private final StatisticProvider statisticProvider = new StatisticProvider(consoleProvider);
     private final EntityFactory entityFactory = new EntityFactory();
     private final ExecutorService executorService = Executors.newWorkStealingPool();
     private final TaskHandler taskHandler = new TaskHandler();
@@ -26,12 +27,16 @@ public class Executor {
         statisticProvider.printByLocations(area);
         long start = System.currentTimeMillis();
 
-        for (int i = 1; i <= numberSimulationDays; i++) {
-            consoleProvider.println("************ day " + i + " ************");
-            taskHandler.eatAllInArea(area, executorService);
-            taskHandler.loveAllInArea(area, executorService);
-            taskHandler.moveAllInArea(area, executorService);
-            statisticProvider.printArea(area);
+        try {
+            for (int i = 1; i <= numberSimulationDays; i++) {
+                consoleProvider.println("************ day " + i + " ************");
+                taskHandler.eatAllInArea(area, executorService);
+                taskHandler.loveAllInArea(area, executorService);
+                taskHandler.moveAllInArea(area, executorService);
+                statisticProvider.printArea(area);
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
 
         long end = System.currentTimeMillis();

@@ -10,6 +10,7 @@ public class AppConfigurator {
     private final EntityFactory entityFactory;
     private final ConfigLoader configLoader = new ConfigLoader();
     private final AreaInitializer areaInitializer;
+    private final String classFolder = "ua.javarush.island.entity";
 
     public AppConfigurator(EntityFactory entityFactory, ConsoleProvider consoleProvider) {
         this.entityFactory = entityFactory;
@@ -22,7 +23,7 @@ public class AppConfigurator {
     }
 
     private void loadEntities() {
-        Reflections reflections = new Reflections("ua.javarush.island.entity");
+        Reflections reflections = new Reflections(classFolder);
         reflections.getSubTypesOf(Entity.class).stream()
                 .filter(e -> e.isAnnotationPresent(Config.class))
                 .map(configLoader::getObject)
@@ -30,7 +31,7 @@ public class AppConfigurator {
     }
 
     private Area initializeArea() {
-        return areaInitializer.initializeArea(entityFactory);
+        return areaInitializer.initializeArea();
     }
 
 }

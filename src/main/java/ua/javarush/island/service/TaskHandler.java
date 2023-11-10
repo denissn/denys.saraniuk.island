@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class TaskHandler {
 
-    public void eatAllInArea(Area area, ExecutorService executorService) {
+    public void eatAllInArea(Area area, ExecutorService executorService) throws InterruptedException {
         Location[][] locations = area.getLocations();
         List<Callable<Void>> tasks = new ArrayList<>();
         for (Location[] locationX : locations) {
@@ -36,14 +36,10 @@ public class TaskHandler {
                 tasks.add(task);
             }
         }
-        try {
-            executorService.invokeAll(tasks);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        executorService.invokeAll(tasks);
     }
 
-    public void loveAllInArea(Area area, ExecutorService executorService) {
+    public void loveAllInArea(Area area, ExecutorService executorService) throws InterruptedException {
         Location[][] locations = area.getLocations();
         List<Callable<Void>> tasks = new ArrayList<>();
         for (Location[] locationX : locations) {
@@ -66,11 +62,7 @@ public class TaskHandler {
                 tasks.add(task);
             }
         }
-        try {
-            executorService.invokeAll(tasks);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        executorService.invokeAll(tasks);
     }
 
     private void setAllReadyForLove(Map<Class<? extends Entity>, List<Entity>> entitiesPrototype) {

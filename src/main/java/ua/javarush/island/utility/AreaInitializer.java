@@ -17,19 +17,19 @@ public class AreaInitializer {
         this.consoleProvider = consoleProvider;
     }
 
-    public Area initializeArea(EntityFactory entityFactory) {
+    public Area initializeArea() {
         Area area = getAreaSize();
         Location[][] locations = area.getLocations();
         ThreadLocalRandom random = ThreadLocalRandom.current();
         for (int i = 0; i < locations.length; i++) {
             for (int j = 0; j < locations[0].length; j++) {
-                Map<Class<? extends Entity>, Entity> entities = entityFactory.getEntities();
+                Map<Class<? extends Entity>, Entity> entities = EntityFactory.getEntities();
                 locations[i][j] = new Location(i, j);
                 for (Map.Entry<Class<? extends Entity>, Entity> entityItem : entities.entrySet()) {
                     int amountMax = entityItem.getValue().getAmountMax();
                     int countEntitiesByType = random.nextInt(amountMax);
                     for (int k = 0; k < countEntitiesByType; k++) {
-                        locations[i][j].addEntity(entityFactory.getEntityClass(entityItem.getKey()));
+                        locations[i][j].addEntity(EntityFactory.getEntityClass(entityItem.getKey()));
                     }
                 }
             }

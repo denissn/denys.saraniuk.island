@@ -1,7 +1,5 @@
 package ua.javarush.island.utility;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ua.javarush.island.abstraction.annotation.Config;
 
@@ -18,12 +16,12 @@ public class ConfigLoader {
         return loadObject(filePath, aClass);
     }
 
-    private File getConfigFilePath(Class<?> aClass){
+    private File getConfigFilePath(Class<?> aClass) {
         Config config = aClass.getAnnotation(Config.class);
         return new File(config.filePath());
     }
 
-    private <T> T loadObject(File filePath, Class<T> aClass){
+    private <T> T loadObject(File filePath, Class<T> aClass) {
         ObjectMapper objectMapper = new ObjectMapper();
         T object;
         try {

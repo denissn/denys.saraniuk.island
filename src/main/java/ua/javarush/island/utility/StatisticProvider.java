@@ -11,12 +11,18 @@ import java.util.TreeMap;
 
 public class StatisticProvider {
 
+    private final ConsoleProvider consoleProvider;
+
+    public StatisticProvider(ConsoleProvider consoleProvider) {
+        this.consoleProvider = consoleProvider;
+    }
+
     public void printArea(Area area) {
         Map<String, Integer> map = new TreeMap<>();
         Location[][] locations = area.getLocations();
-        for (int i = 0; i < locations.length; i++) {
-            for (int j = 0; j < locations[0].length; j++) {
-                Map<Class<? extends Entity>, List<Entity>> entities = locations[i][j].getEntities();
+        for (Location[] locationX : locations) {
+            for (Location location : locationX) {
+                Map<Class<? extends Entity>, List<Entity>> entities = location.getEntities();
                 for (Map.Entry<Class<? extends Entity>, List<Entity>> entry : entities.entrySet()) {
                     String key = entry.getKey().getSimpleName();
                     int value = entry.getValue().size();
@@ -28,14 +34,13 @@ public class StatisticProvider {
                 }
             }
         }
-        System.out.println("*** Area statistic ***");
+        consoleProvider.println("*** Area statistic ***");
         for (Map.Entry<String, Integer> pair : map.entrySet()) {
-            System.out.println(pair.getKey() + " " + pair.getValue());
+            consoleProvider.println(pair.getKey() + " " + pair.getValue());
         }
     }
 
     public void printByLocations(Area area) {
-        //System.out.println("*** by Location statistic ***");
         Map<String, StringBuilder> mapSb = new TreeMap<>();
         Map<Class<? extends Entity>, Entity> map = EntityFactory.getEntities();
         mapSb.put("!loc", new StringBuilder());
@@ -53,7 +58,7 @@ public class StatisticProvider {
                 }
                 int length = mapSb.get("!loc").length();
                 for (Map.Entry<Class<? extends Entity>, List<Entity>> entity : entities.entrySet()) {
-                    String key; //= entity.getKey().getSimpleName();
+                    String key;
                     if (!entity.getValue().isEmpty()) {
                         try {
                             key = (String) entity.getKey().getMethod("getIcon").invoke(entity.getValue().get(0));
@@ -70,7 +75,7 @@ public class StatisticProvider {
                     }
                 }
             }
-            mapSb.forEach((k, v) -> System.out.println(v));
+            mapSb.forEach((k, v) -> consoleProvider.println(v));
             for (Map.Entry<String, StringBuilder> map2 : mapSb.entrySet()) {
                 map2.getValue().setLength(0);
             }

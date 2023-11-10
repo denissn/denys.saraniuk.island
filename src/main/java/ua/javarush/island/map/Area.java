@@ -3,10 +3,9 @@ package ua.javarush.island.map;
 import lombok.Getter;
 import lombok.Setter;
 
-
+@Getter
 @Setter
 public class Area {
-    @Getter
     private Location[][] locations;
 
     public Area(int x, int y) {
