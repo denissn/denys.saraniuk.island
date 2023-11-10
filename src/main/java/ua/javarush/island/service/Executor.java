@@ -5,28 +5,32 @@ import ua.javarush.island.utility.AppConfigurator;
 import ua.javarush.island.utility.ConsoleProvider;
 import ua.javarush.island.utility.EntityFactory;
 import ua.javarush.island.utility.StatisticProvider;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Executor {
     private final ConsoleProvider consoleProvider = new ConsoleProvider();
     private final StatisticProvider statisticProvider = new StatisticProvider();
     private final EntityFactory entityFactory = new EntityFactory();
+    private final ExecutorService executorService = Executors.newWorkStealingPool();
+    private final TaskHandler taskHandler = new TaskHandler();
 
     public void startSimulation() {
 
         consoleProvider.println("--- init game ---");
         int numberSimulationDays = getNumberSimulationDays();
         Area area = new AppConfigurator(entityFactory, consoleProvider).init();
-        Task task = new Task();
+
         consoleProvider.println("--- start simulation ---");
         statisticProvider.printArea(area);
         statisticProvider.printByLocations(area);
         long start = System.currentTimeMillis();
 
         for (int i = 1; i <= numberSimulationDays; i++) {
-            consoleProvider.println("*************** day " + i + " ***************");
-            task.eatAllInArea(area);
-            task.loveAllInArea(area);
-            task.moveAllInArea(area);
+            consoleProvider.println("************ day " + i + " ************");
+            taskHandler.eatAllInArea(area, executorService);
+            taskHandler.loveAllInArea(area, executorService);
+            taskHandler.moveAllInArea(area, executorService);
             statisticProvider.printArea(area);
         }
 
@@ -35,6 +39,7 @@ public class Executor {
         statisticProvider.printByLocations(area);
         statisticProvider.printArea(area);
         consoleProvider.println("Total time: " + (end - start) * 1.0 / 1000 + " s");
+        executorService.shutdown();
     }
 
     private int getNumberSimulationDays() {

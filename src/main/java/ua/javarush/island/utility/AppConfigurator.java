@@ -9,12 +9,10 @@ public class AppConfigurator {
 
     private final EntityFactory entityFactory;
     private final ConfigLoader configLoader = new ConfigLoader();
-    private final ConsoleProvider consoleProvider;
     private final AreaInitializer areaInitializer;
 
     public AppConfigurator(EntityFactory entityFactory, ConsoleProvider consoleProvider) {
         this.entityFactory = entityFactory;
-        this.consoleProvider = consoleProvider;
         this.areaInitializer = new AreaInitializer(consoleProvider);
     }
 

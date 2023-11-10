@@ -9,7 +9,9 @@ import ua.javarush.island.map.Area;
 import ua.javarush.island.map.Location;
 import ua.javarush.island.utility.EntityFactory;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
