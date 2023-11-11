@@ -11,7 +11,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 @Getter
 public class Location {
-    private final ReentrantLock lock = new ReentrantLock();
     private final int x;
     private final int y;
     private final Map<Class<? extends Entity>, List<Entity>> entities = new ConcurrentHashMap<>();
