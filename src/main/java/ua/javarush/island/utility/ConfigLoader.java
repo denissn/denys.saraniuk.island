@@ -3,8 +3,9 @@ package ua.javarush.island.utility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ua.javarush.island.abstraction.annotation.Config;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Objects;
 
 public class ConfigLoader {
 
@@ -12,23 +13,29 @@ public class ConfigLoader {
         if (!aClass.isAnnotationPresent(Config.class)) {
             throw new IllegalArgumentException();
         }
-        File filePath = getConfigFilePath(aClass);
+        String filePath = getConfigFilePath(aClass);
         return loadObject(filePath, aClass);
     }
 
-    private File getConfigFilePath(Class<?> aClass) {
+    private String getConfigFilePath(Class<?> aClass) {
         Config config = aClass.getAnnotation(Config.class);
-        return new File(config.filePath());
+        return config.filePath();
     }
 
-    private <T> T loadObject(File filePath, Class<T> aClass) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        T object;
-        try {
-            object = objectMapper.readValue(filePath, aClass);
+    private <T> T loadObject(String filePath, Class<T> aClass) {
+        T object = null;
+        try (InputStream inputStream = ConfigLoader.class.getClassLoader().getResourceAsStream(filePath)) {
+            byte[] bytes = Objects.requireNonNull(inputStream).readAllBytes();
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                object = objectMapper.readValue(new String(bytes), aClass);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
+
         return object;
     }
 
